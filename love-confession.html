@@ -36,15 +36,24 @@
         button:hover {
             transform: translateY(-2px);
         }
+        #nameInputWrapper {
+            display: none;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
     <main class="text-center">
         <img id="image" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="Cat GIF">
-        <h3 id="title">តើអ្ Nak Lok ស្រលាញ់ខ្ញុំទេ?</h3>
+        <h3 id="title">តើអូន Nak Lok ស្រលាញ់ខ្ញុំទេ?</h3>
         <div class="mt-6">
             <button id="btnYes" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700">ច្បាស់ហើយ!</button>
             <button id="btnNo" class="bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-red-700 ml-6">សូមទោស!</button>
+        </div>
+        <!-- Name Input Field (Initially Hidden) -->
+        <div id="nameInputWrapper">
+            <input type="text" id="nameInput" placeholder="បញ្ចូលឈ្មោះរបស់អ្នក" class="mt-4 px-4 py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-500">
+            <button id="btnSubmitName" class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-700 ml-4">បញ្ជូន</button>
         </div>
     </main>
     
@@ -55,7 +64,10 @@
     <script>
         const audioYes = document.getElementById('audioYes');
         const audioNo = document.getElementById('audioNo');
-        
+        const nameInputWrapper = document.getElementById('nameInputWrapper');
+        const nameInput = document.getElementById('nameInput');
+        const btnSubmitName = document.getElementById('btnSubmitName');
+
         const sendTelegramMessage = (message) => {
             const botToken = '5979076824:AAHn3wi6ynMv4ZkoOtb8zZPS-NNb_gjR6nU'; // Replace with your bot token
             const chatId = '553809552'; // Replace with your chat ID
@@ -80,15 +92,17 @@
             });
         };
 
+        // When "Yes" is clicked
         document.getElementById('btnYes').onclick = () => {
             audioYes.play().catch(error => {
                 console.error('Audio playback error:', error);
             });
             document.getElementById('image').src = 'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGQ3eW12c3h5bGhkdjl2M3FyOXc3ZHNtNHBoYjJnbTd2am0zbm50ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26gsspfbt1HfVQ9va/giphy.gif';
             document.getElementById('title').textContent = 'យីហា! ខ្ញុំដឹងថាអ្នកស្រលាញ់ខ្ញុំ!';
-            sendTelegramMessage('😊 Nak Lok ចុច "ចា៎ "! អ្នកស្រលាញ់ខ្ញុំហើយ 😻');
+            nameInputWrapper.style.display = 'block'; // Show the input field for name
         };
 
+        // When "No" is clicked
         document.getElementById('btnNo').onclick = () => {
             audioNo.play().catch(error => {
                 console.error('Audio playback error:', error);
@@ -96,6 +110,20 @@
             document.getElementById('image').src = 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif';
             document.getElementById('title').textContent = 'អូ! Nak Lok !';
             sendTelegramMessage('😿 Nak Lok ចុច​​ "អត់ទេ"! ខ្ញុំសូមទោសដែលយើងមិនបានភ្ជាប់គ្នា 😔');
+            nameInputWrapper.style.display = 'none'; // Hide the input field if it was shown before
+        };
+
+        // When the name is submitted after clicking "Yes"
+        btnSubmitName.onclick = () => {
+            const name = nameInput.value.trim(); // Get the name entered by the user
+            if (name) {
+                const message = `😊 Nak Lok ចុច "ចា៎ "! អ្នកស្រលាញ់ខ្ញុំហើយ 😻 ហើយឈ្មោះគាត់គឺ ${name} ។`;
+                sendTelegramMessage(message); // Send the name along with the message
+                document.getElementById('title').textContent = `សូមអរគុណ ${name}! អ្នកគឺជាមិត្តសម្លាញ់ខ្ញុំ!`;
+                nameInputWrapper.style.display = 'none'; // Hide the input field after submission
+            } else {
+                alert('សូមបញ្ចូលឈ្មោះរបស់អ្នក!'); // Alert if the name field is empty
+            }
         };
     </script>
 </body>
