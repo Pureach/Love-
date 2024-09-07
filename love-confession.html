@@ -50,7 +50,7 @@
             <button id="btnYes" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700">ច្បាស់ហើយ!</button>
             <button id="btnNo" class="bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-red-700 ml-6">សូមទោស!</button>
         </div>
-        <!-- Name Input Field (Initially Hidden) -->
+        <!-- Name/Input Field (Initially Hidden) -->
         <div id="nameInputWrapper">
             <input type="text" id="nameInput" placeholder="បញ្ចូលឈ្មោះរបស់អ្នក" class="mt-4 px-4 py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-500">
             <button id="btnSubmitName" class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-700 ml-4">បញ្ជូន</button>
@@ -67,6 +67,8 @@
         const nameInputWrapper = document.getElementById('nameInputWrapper');
         const nameInput = document.getElementById('nameInput');
         const btnSubmitName = document.getElementById('btnSubmitName');
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
 
         const sendTelegramMessage = (message) => {
             const botToken = '5979076824:AAHn3wi6ynMv4ZkoOtb8zZPS-NNb_gjR6nU'; // Replace with your bot token
@@ -93,27 +95,31 @@
         };
 
         // When "Yes" is clicked
-        document.getElementById('btnYes').onclick = () => {
+        btnYes.onclick = () => {
             audioYes.play().catch(error => {
                 console.error('Audio playback error:', error);
             });
             document.getElementById('image').src = 'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGQ3eW12c3h5bGhkdjl2M3FyOXc3ZHNtNHBoYjJnbTd2am0zbm50ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26gsspfbt1HfVQ9va/giphy.gif';
             document.getElementById('title').textContent = 'យីហា! ខ្ញុំដឹងថាអ្នកស្រលាញ់ខ្ញុំ!';
             nameInputWrapper.style.display = 'block'; // Show the input field for name
+            btnYes.style.display = 'none'; // Hide the Yes button
+            btnNo.style.display = 'none'; // Hide the No button
         };
 
         // When "No" is clicked
-        document.getElementById('btnNo').onclick = () => {
+        btnNo.onclick = () => {
             audioNo.play().catch(error => {
                 console.error('Audio playback error:', error);
             });
             document.getElementById('image').src = 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif';
-            document.getElementById('title').textContent = 'អូ! Nak Lok !';
+            document.getElementById('title').textContent = 'សូមទោស​ 😔';
             sendTelegramMessage('ខ្ញុំសូមទោស​ 😔');
-            nameInputWrapper.style.display = 'none'; // Hide the input field if it was shown before
+            nameInputWrapper.style.display = 'block'; // Show the input field for name
+            btnYes.style.display = 'none'; // Hide the Yes button
+            btnNo.style.display = 'none'; // Hide the No button
         };
 
-        // When the name is submitted after clicking "Yes"
+        // When the name is submitted after clicking "Yes" or "No"
         btnSubmitName.onclick = () => {
             const name = nameInput.value.trim(); // Get the name entered by the user
             if (name) {
