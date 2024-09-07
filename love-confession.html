@@ -12,9 +12,17 @@
             font-family: 'Battambang', sans-serif;
             background: linear-gradient(to right, #ff9a9e, #fecfef);
             display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 100vh;
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
         }
         img {
             width: 400px;
@@ -40,12 +48,33 @@
             display: none;
             margin-top: 1rem;
         }
+        footer {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            font-size: 0.8rem; /* Smaller font size for the footer */
+            text-align: center;
+        }
+        a {
+            color: #fdfd96;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .personalized-ui {
+            background-color: rgba(255, 0, 212, 0.267);
+            border-radius: 0.75rem;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            margin-top: 1.5rem;
+        }
     </style>
 </head>
 <body>
     <main class="text-center">
         <img id="image" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="Cat GIF">
-        <h3 id="title">តើមានអ្នកស្រលាញ់ខ្ញុំទេ?</h3>
+        <h3 id="title">តើអ្នកច្បាស់ថាស្រលាញ់ខ្ញុំទេ?</h3>
         <div class="mt-6">
             <button id="btnYes" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700">ច្បាស់ហើយ!</button>
             <button id="btnNo" class="bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-red-700 ml-6">សូមទោស!</button>
@@ -56,7 +85,13 @@
             <button id="btnSubmitName" class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-700 ml-4">បញ្ជូន</button>
         </div>
     </main>
-    
+
+    <!-- Footer Section fixed at the bottom -->
+    <footer class="personalized-ui">
+        <p>Created by <strong>Tsukiyo Ronin</strong></p>
+        <p>Contact Telegram: <a href="https://t.me/t_reach" target="blank">@t_reach</a></p>
+    </footer>
+
     <!-- Audio Elements -->
     <audio id="audioYes" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
     <audio id="audioNo" src="https://www.soundjay.com/button/button-16.mp3" preload="auto"></audio>
@@ -112,7 +147,7 @@
                 console.error('Audio playback error:', error);
             });
             document.getElementById('image').src = 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif';
-            document.getElementById('title').textContent = 'សូមទោស​ 😔';
+            document.getElementById('title').textContent = 'ច្បាស់ហើយមែនទេ?';
             sendTelegramMessage('ខ្ញុំសូមទោស​ 😔');
             nameInputWrapper.style.display = 'block'; // Show the input field for name
             btnYes.style.display = 'none'; // Hide the Yes button
@@ -125,7 +160,7 @@
             if (name) {
                 const message = `មានអ្នកស្រលាញ់ខ្ញុំហើយ ហើយឈ្មោះគាត់គឺ ${name} ។`;
                 sendTelegramMessage(message); // Send the name along with the message
-                document.getElementById('title').textContent = `សូមអរគុណ ${name}! ដែលសម្លាញ់ខ្ញុំ!`;
+                document.getElementById('title').textContent = `សូមអរគុណ ${name}!`;
                 nameInputWrapper.style.display = 'none'; // Hide the input field after submission
             } else {
                 alert('សូមបញ្ចូលឈ្មោះរបស់អ្នក!'); // Alert if the name field is empty
