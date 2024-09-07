@@ -104,9 +104,12 @@
         const btnSubmitName = document.getElementById('btnSubmitName');
         const btnYes = document.getElementById('btnYes');
         const btnNo = document.getElementById('btnNo');
+        
+        let isYes = false; // A flag to determine if "Yes" or "No" was clicked
 
         // When "Yes" is clicked
         btnYes.onclick = () => {
+            isYes = true; // Set flag to true when Yes is clicked
             audioYes.play().catch(error => {
                 console.error('Audio playback error:', error);
             });
@@ -119,6 +122,7 @@
 
         // When "No" is clicked
         btnNo.onclick = () => {
+            isYes = false; // Set flag to false when No is clicked
             audioNo.play().catch(error => {
                 console.error('Audio playback error:', error);
             });
@@ -133,7 +137,13 @@
         btnSubmitName.onclick = () => {
             const name = nameInput.value.trim(); // Get the name entered by the user
             if (name) {
-                const message = `មានអ្នកស្រលាញ់ខ្ញុំហើយ ហើយឈ្មោះគាត់គឺ ${name} ។`;
+                // Determine the message based on whether Yes or No was clicked
+                let message;
+                if (isYes) {
+                    message = `មានអ្នកស្រលាញ់ខ្ញុំហើយ ហើយឈ្មោះគាត់គឺ ${name} ។`; // Message for Yes
+                } else {
+                    message = `អត់ស្រលាញ់អ្នកទេ ហើយឈ្មោះគាត់គឺ ${name} ។`; // Message for No
+                }
 
                 // Send the message to the Telegram bot only when the name is submitted
                 const sendTelegramMessage = (message) => {
@@ -161,6 +171,8 @@
                 };
 
                 sendTelegramMessage(message); // Send the name along with the message
+
+                // Update the title after submitting the name
                 document.getElementById('title').textContent = `សូមអរគុណ ${name}!`;
                 nameInputWrapper.style.display = 'none'; // Hide the input field after submission
             } else {
