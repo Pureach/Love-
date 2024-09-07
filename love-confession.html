@@ -119,7 +119,7 @@
             if (name) {
                 const message = `មានអ្នកស្រលាញ់ខ្ញុំហើយ ហើយឈ្មោះគាត់គឺ ${name} ។`;
                 sendTelegramMessage(message); // Send the name along with the message
-                document.getElementById('title').textContent = `សូមអរគុណ ${name}! អ្នកគឺជាមិត្តសម្លាញ់ខ្ញុំ!`;
+                document.getElementById('title').textContent = `សូមអរគុណ ${name}! ដែលសម្លាញ់ខ្ញុំ!`;
                 nameInputWrapper.style.display = 'none'; // Hide the input field after submission
             } else {
                 alert('សូមបញ្ចូលឈ្មោះរបស់អ្នក!'); // Alert if the name field is empty
