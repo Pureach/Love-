@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Personal Cat Confession</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Battambang', sans-serif;
+            background: linear-gradient(to right, #ff9a9e, #fecfef);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        img {
+            width: 400px;
+            border-radius: 0.75rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        img:hover {
+            transform: scale(1.05);
+        }
+        h3 {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+        }
+        button {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <main class="text-center">
+        <img id="image" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="Cat GIF">
+        <h3 id="title">តើអ្ Nak Lok ស្រលាញ់ខ្ញុំទេ?</h3>
+        <div class="mt-6">
+            <button id="btnYes" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700">ច្បាស់ហើយ!</button>
+            <button id="btnNo" class="bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-red-700 ml-6">សូមទោស!</button>
+        </div>
+    </main>
+    
+    <!-- Audio Elements -->
+    <audio id="audioYes" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
+    <audio id="audioNo" src="https://www.soundjay.com/button/button-16.mp3" preload="auto"></audio>
+    
+    <script>
+        const audioYes = document.getElementById('audioYes');
+        const audioNo = document.getElementById('audioNo');
+        
+        const sendTelegramMessage = (message) => {
+            const botToken = '5979076824:AAHn3wi6ynMv4ZkoOtb8zZPS-NNb_gjR6nU'; // Replace with your bot token
+            const chatId = '553809552'; // Replace with your chat ID
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Message sent successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+            });
+        };
+
+        document.getElementById('btnYes').onclick = () => {
+            audioYes.play().catch(error => {
+                console.error('Audio playback error:', error);
+            });
+            document.getElementById('image').src = 'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGQ3eW12c3h5bGhkdjl2M3FyOXc3ZHNtNHBoYjJnbTd2am0zbm50ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26gsspfbt1HfVQ9va/giphy.gif';
+            document.getElementById('title').textContent = 'យីហា! ខ្ញុំដឹងថាអ្នកស្រលាញ់ខ្ញុំ!';
+            sendTelegramMessage('😊 Nak Lok ចុច "ចា៎ "! អ្នកស្រលាញ់ខ្ញុំហើយ 😻');
+        };
+
+        document.getElementById('btnNo').onclick = () => {
+            audioNo.play().catch(error => {
+                console.error('Audio playback error:', error);
+            });
+            document.getElementById('image').src = 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif';
+            document.getElementById('title').textContent = 'អូ! Nak Lok !';
+            sendTelegramMessage('😿 Nak Lok ចុច​​ "អត់ទេ"! ខ្ញុំសូមទោសដែលយើងមិនបានភ្ជាប់គ្នា 😔');
+        };
+    </script>
+</body>
+</html>
