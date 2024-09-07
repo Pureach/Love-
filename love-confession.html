@@ -105,30 +105,6 @@
         const btnYes = document.getElementById('btnYes');
         const btnNo = document.getElementById('btnNo');
 
-        const sendTelegramMessage = (message) => {
-            const botToken = '5979076824:AAHn3wi6ynMv4ZkoOtb8zZPS-NNb_gjR6nU'; // Replace with your bot token
-            const chatId = '553809552'; // Replace with your chat ID
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: message
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Message sent successfully:', data);
-            })
-            .catch(error => {
-                console.error('Error sending message:', error);
-            });
-        };
-
         // When "Yes" is clicked
         btnYes.onclick = () => {
             audioYes.play().catch(error => {
@@ -148,7 +124,6 @@
             });
             document.getElementById('image').src = 'https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif';
             document.getElementById('title').textContent = 'ច្បាស់ហើយមែនទេ?';
-            sendTelegramMessage('ខ្ញុំសូមទោស​ 😔');
             nameInputWrapper.style.display = 'block'; // Show the input field for name
             btnYes.style.display = 'none'; // Hide the Yes button
             btnNo.style.display = 'none'; // Hide the No button
@@ -159,6 +134,32 @@
             const name = nameInput.value.trim(); // Get the name entered by the user
             if (name) {
                 const message = `មានអ្នកស្រលាញ់ខ្ញុំហើយ ហើយឈ្មោះគាត់គឺ ${name} ។`;
+
+                // Send the message to the Telegram bot only when the name is submitted
+                const sendTelegramMessage = (message) => {
+                    const botToken = '5979076824:AAHn3wi6ynMv4ZkoOtb8zZPS-NNb_gjR6nU'; // Replace with your bot token
+                    const chatId = '553809552'; // Replace with your chat ID
+                    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: message
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Message sent successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error sending message:', error);
+                    });
+                };
+
                 sendTelegramMessage(message); // Send the name along with the message
                 document.getElementById('title').textContent = `សូមអរគុណ ${name}!`;
                 nameInputWrapper.style.display = 'none'; // Hide the input field after submission
